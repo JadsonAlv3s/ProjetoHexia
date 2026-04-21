@@ -85,8 +85,8 @@
     const drawn = Math.floor(steps * t);
 
     /* Espiral interna */
-    const turns1 = 2.8;
-    const maxR1  = 158 * SCALE;
+    const turns1 = 3.8;
+    const maxR1  = 458 * SCALE;
     ctx.shadowBlur  = 10 * SCALE;
     ctx.shadowColor = GLOW_COLOR;
     ctx.beginPath();
@@ -104,8 +104,8 @@
     ctx.stroke();
 
     /* Espiral externa — maior raio, fase defasada */
-    const turns2 = 3.4;
-    const maxR2  = SIZE * 0.50;
+    const turns2 = 4.4;
+    const maxR2  = SIZE * 0.90;
     const delay  = 0.16;
     const t2     = Math.max(0, Math.min(1, (t - delay) / (1 - delay)));
     const drawn2 = Math.floor(steps * t2);
@@ -133,7 +133,7 @@
   function drawLogoSpiral(prog) {
     if (!img.complete || !img.naturalWidth) return;
 
-    const N       = 9;           /* número de cópias na hélice */
+    const N       = 10;           /* número de cópias na hélice */
     const TURNS   = 1.5;         /* voltas da hélice */
     const R       = 95 * SCALE;  /* raio da hélice */
     const H_HEL   = 150 * SCALE; /* altura total da hélice */
