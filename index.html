@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Hexia — A Arquitetura do Amanhã, Hoje. Ecossistemas digitais inabaláveis para operações de alto impacto.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hexia — A Arquitetura do Amanhã, Hoje.">
+  <meta property="og:description" content="Ecossistemas digitais inabaláveis. Onde a engenharia de precisão encontra a visão estratégica.">
+  <meta property="og:image" content="assets/images/logoHexia-removebg-preview.png">
+  <meta property="og:locale" content="pt_BR">
+
+  <title>Hexia — A Arquitetura do Amanhã, Hoje.</title>
+
+  <!-- ⚠️ SUBSTITUIR pelo domínio real antes de publicar -->
+  <link rel="canonical" href="https://hexia.com.br">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <img src="assets/images/logoHexia-removebg-preview.png" alt="Hexia — Soluções Digitais" class="logo-img" loading="eager" width="181" height="56">
+  </a>
+  <button class="nav-hamburger" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#nichos">Serviços</a></li>
+    <li><a href="#processo">Processo</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5500000000000" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">Falar no WhatsApp</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-line"></div>
+    <p class="hero-tag">A Arquitetura do Amanhã, Hoje</p>
+    <h1 class="hero-title">
+      Sistemas e Soluções<br>Digitais que
+      <em>transformam</em>
+      seu negócio
+    </h1>
+    <p class="hero-sub">Projetamos infraestruturas digitais inteligentes e milimetricamente planejadas para empresas que operam em alto impacto e não aceitam o comum.</p>
+    <div class="hero-cta-group">
+      <a href="https://wa.me/5500000000000" class="btn-gold" target="_blank">Solicitar Orçamento</a>
+      <a href="#nichos" class="btn-outline">Ver Serviços</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <canvas id="hex3d"></canvas>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <span class="strip-item">Landing Pages</span>
+  <span class="strip-item">Hospedagem</span>
+  <span class="strip-item">Gestão Financeira</span>
+  <span class="strip-item">Sistemas Web</span>
+  <span class="strip-item">Presença Digital</span>
+</div>
+
+<!-- CONECTOR -->
+<div class="section-connector"><div class="section-connector-dot"></div></div>
+
+<!-- SERVIÇOS -->
+<section class="nichos" id="nichos">
+  <div class="section-header">
+    <div class="section-line"></div>
+    <p class="section-tag">O que fazemos</p>
+    <h2 class="section-title">Nossos <em>serviços</em></h2>
+  </div>
+  <div class="nichos-grid">
+    <div class="nicho-card">
+      <p class="nicho-num">01</p>
+      <div class="nicho-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="1"/><path d="M8 21h8M12 17v4"/></svg></div>
+      <h3 class="nicho-title">Landing Pages</h3>
+      <p class="nicho-desc">Páginas de alta conversão desenvolvidas com foco em capturar clientes e gerar resultados reais para seu negócio.</p>
+    </div>
+    <div class="nicho-card">
+      <p class="nicho-num">02</p>
+      <div class="nicho-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/><path d="M2 12h20"/></svg></div>
+      <h3 class="nicho-title">Hospedagem</h3>
+      <p class="nicho-desc">Hospedagem gerenciada com domínio próprio, SSL e suporte técnico. Seu site no ar com segurança e estabilidade.</p>
+    </div>
+    <div class="nicho-card">
+      <p class="nicho-num">03</p>
+      <div class="nicho-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <h3 class="nicho-title">Gestão Financeira</h3>
+      <p class="nicho-desc">Sistemas personalizados de controle financeiro. Fluxo de caixa, relatórios e dashboards em tempo real.</p>
+    </div>
+    <div class="nicho-card">
+      <p class="nicho-num">04</p>
+      <div class="nicho-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+      <h3 class="nicho-title">Sistemas Web</h3>
+      <p class="nicho-desc">Desenvolvimento de sistemas de gestão sob medida. Automatize processos e ganhe eficiência operacional.</p>
+    </div>
+    <div class="nicho-card">
+      <p class="nicho-num">05</p>
+      <div class="nicho-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <h3 class="nicho-title">Presença Digital</h3>
+      <p class="nicho-desc">Identidade visual, domínio e deploy completo. Posicionamos sua marca no digital com profissionalismo.</p>
+    </div>
+    <div class="nicho-card">
+      <p class="nicho-num">06</p>
+      <div class="nicho-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></div>
+      <h3 class="nicho-title">Suporte Contínuo</h3>
+      <p class="nicho-desc">Atendimento via WhatsApp com suporte técnico ativo. Sua empresa nunca para por falta de assistência especializada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONECTOR -->
+<div class="section-connector"><div class="section-connector-dot"></div></div>
+
+<!-- SOBRE -->
+<section class="sobre" id="sobre">
+  <div class="sobre-inner">
+    <div class="sobre-left">
+      <div class="section-line"></div>
+      <p class="section-tag">Quem somos</p>
+      <h2 class="sobre-title">Hexia: A Arquitetura do<br>Amanhã, <em>Hoje.</em></h2>
+    </div>
+    <div class="sobre-right">
+      <p class="sobre-text">Na Hexia, acreditamos que a verdadeira tecnologia não é apenas funcional, mas estrutural. Onde outros entregam apenas código, nós projetamos uma infraestrutura inteligente, interconectada e milimetricamente planejada.</p>
+      <p class="sobre-text">Nosso nome reflete nossa essência: o <strong>Hexa</strong>, símbolo da perfeição geométrica e solidez, unido à <strong>IA</strong>, a inteligência que impulsiona a evolução. Somos o ponto de encontro entre a engenharia de precisão e a visão estratégica, construindo sistemas que servem como o núcleo vital para operações de alto impacto. Na Hexia, não apenas resolvemos problemas; criamos ecossistemas digitais inabaláveis.</p>
+      <div class="sobre-divider"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONECTOR -->
+<div class="section-connector"><div class="section-connector-dot"></div></div>
+
+<!-- PROCESSO -->
+<section class="process" id="processo">
+  <div class="section-header">
+    <div class="section-line"></div>
+    <p class="section-tag">Como trabalhamos</p>
+    <h2 class="section-title">Nosso <em>processo</em></h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step">
+      <div class="step-num"><span>01</span></div>
+      <p class="step-title">Briefing</p>
+      <p class="step-desc">Entendemos seu negócio, objetivos e identidade da marca</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num"><span>02</span></div>
+      <p class="step-title">Proposta</p>
+      <p class="step-desc">Apresentamos solução personalizada com prazo e valor</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num"><span>03</span></div>
+      <p class="step-title">Desenvolvimento</p>
+      <p class="step-desc">Construímos com qualidade, agilidade e transparência</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num"><span>04</span></div>
+      <p class="step-title">Entrega</p>
+      <p class="step-desc">Deploy completo com suporte e acompanhamento pós-entrega</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONECTOR -->
+<div class="section-connector"><div class="section-connector-dot"></div></div>
+
+<!-- NÚMEROS -->
+<section class="numeros">
+  <div class="numeros-inner">
+    <div class="numero-item">
+      <span class="numero-val">50+</span>
+      <span class="numero-label">Projetos entregues</span>
+    </div>
+    <div class="numero-divider"></div>
+    <div class="numero-item">
+      <span class="numero-val">100%</span>
+      <span class="numero-label">Satisfação dos clientes</span>
+    </div>
+    <div class="numero-divider"></div>
+    <div class="numero-item">
+      <span class="numero-val">3x</span>
+      <span class="numero-label">Mais conversão</span>
+    </div>
+    <div class="numero-divider"></div>
+    <div class="numero-item">
+      <span class="numero-val">24h</span>
+      <span class="numero-label">Suporte ativo</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONECTOR -->
+<div class="section-connector"><div class="section-connector-dot"></div></div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <span class="cta-tag">Próximo passo</span>
+    <h2 class="cta-title">Pronto para <em>evoluir</em><br>seu negócio?</h2>
+    <p class="cta-sub">Fale agora com nossa equipe e receba uma proposta personalizada.<br>Atendimento rápido e sem compromisso.</p>
+    <a href="https://wa.me/5500000000000" class="wpp-btn" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.122 1.532 5.857L.057 23.93a.5.5 0 00.611.61l6.102-1.463A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.877 9.877 0 01-5.031-1.377l-.36-.214-3.733.896.93-3.647-.235-.374A9.856 9.856 0 012.118 12C2.118 6.53 6.53 2.118 12 2.118S21.882 6.53 21.882 12 17.47 21.882 12 21.882z"/></svg>
+      Falar no WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">
+    <img src="assets/images/logoHexia-removebg-preview.png" alt="Hexia" class="footer-logo-img" loading="lazy" width="97" height="30">
+  </a>
+  <div class="footer-links">
+    <a href="#nichos">Serviços</a>
+    <a href="#processo">Processo</a>
+    <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer">Contato</a>
+  </div>
+  <span class="footer-copy">© 2026 Hexia — Todos os direitos reservados</span>
+</footer>
+
+  <script src="js/hex3d.js"></script>
+  <script>
+    /* Hamburger menu */
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', function () {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+    links.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>
