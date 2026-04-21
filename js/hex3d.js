@@ -125,54 +125,68 @@
     ctx.shadowBlur = 0;
   }
 
-  /* ── Espiral áurea ──────────────────────────────────── */
-  function drawSpiral(prog) {
-    const buildEnd = T_BUILD / T_TOTAL;
-    if (prog > buildEnd + 0.05) return;
-    const t     = Math.min(1, prog / buildEnd);
-    const steps = 300;
-    const drawn = Math.floor(steps * t);
+  /* ── Teia de aranha ────────────────────────────────── */
+  function drawWeb(prog) {
+    const SPOKES = 12;
+    const RINGS  = 9;
+    const maxR   = SIZE * 0.49;
+    const cx     = SIZE / 2;
+    const cy     = SIZE / 2;
+    const webRot = rotY * 0.4; /* gira mais devagar que o hexágono central */
 
-    /* Espiral interna */
-    const turns1 = 2.8;
-    const maxR1  = 158 * SCALE;
-    ctx.shadowBlur  = 10 * SCALE;
+    ctx.shadowBlur  = 5 * SCALE;
     ctx.shadowColor = GLOW_COLOR;
-    ctx.beginPath();
-    for (let i = 0; i <= drawn; i++) {
-      const u     = i / steps;
-      const angle = u * turns1 * PI * 2 + rotY;
-      const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR1;
-      const px    = SIZE / 2 + cos(angle) * r;
-      const py    = SIZE / 2 + sin(angle) * r * 0.62;
-      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-    }
-    const sa1 = t < 0.85 ? 0.55 : 0.55 * easeIn(1 - (t - 0.85) / 0.15);
-    ctx.strokeStyle = rgba(sa1);
-    ctx.lineWidth   = 0.9 * SCALE;
-    ctx.stroke();
 
-    /* Espiral externa — maior raio, fase oposta, linha mais fina */
-    const turns2 = 3.4;
-    const maxR2  = SIZE * 0.52;
-    const delay  = 0.18; /* começa um pouco depois */
-    const t2     = Math.max(0, Math.min(1, (t - delay) / (1 - delay)));
-    const drawn2 = Math.floor(steps * t2);
-    if (drawn2 > 0) {
-      ctx.shadowBlur  = 7 * SCALE;
+    /* Raios — aparecem primeiro */
+    const spokeAl = 0.14 * alpha(0.0, prog);
+    if (spokeAl > 0.01) {
+      ctx.strokeStyle = rgba(spokeAl);
+      ctx.lineWidth   = 0.55 * SCALE;
+      for (let i = 0; i < SPOKES; i++) {
+        const angle = (PI * 2 / SPOKES) * i + webRot;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + cos(angle) * maxR, cy + sin(angle) * maxR * 0.72);
+        ctx.stroke();
+      }
+    }
+
+    /* Anéis — expandem do centro para fora, um a um */
+    for (let r = 0; r < RINGS; r++) {
+      const thresh  = 0.08 + (r / RINGS) * 0.84;
+      const outerAl = r === RINGS - 1 ? 0.22 : 0.13;
+      const al      = outerAl * alpha(thresh, prog);
+      if (al < 0.01) continue;
+
+      const radius = ((r + 1) / RINGS) * maxR;
+      ctx.strokeStyle = rgba(al);
+      ctx.lineWidth   = (r === RINGS - 1 ? 0.75 : 0.5) * SCALE;
       ctx.beginPath();
-      for (let i = 0; i <= drawn2; i++) {
-        const u     = i / steps;
-        const angle = u * turns2 * PI * 2 + rotY + PI * 0.72;
-        const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR2;
-        const px    = SIZE / 2 + cos(angle) * r;
-        const py    = SIZE / 2 + sin(angle) * r * 0.62;
+      for (let i = 0; i <= SPOKES; i++) {
+        const angle = (PI * 2 / SPOKES) * i + webRot;
+        const px = cx + cos(angle) * radius;
+        const py = cy + sin(angle) * radius * 0.72;
         i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
       }
-      const sa2 = t2 < 0.85 ? 0.28 : 0.28 * easeIn(1 - (t2 - 0.85) / 0.15);
-      ctx.strokeStyle = rgba(sa2);
-      ctx.lineWidth   = 0.65 * SCALE;
+      ctx.closePath();
       ctx.stroke();
+
+      /* Nós nos vértices do anel externo */
+      if (r === RINGS - 1) {
+        const nodeAl = 0.5 * alpha(thresh, prog);
+        ctx.fillStyle   = rgba(nodeAl);
+        ctx.shadowBlur  = 8 * SCALE;
+        for (let i = 0; i < SPOKES; i++) {
+          const angle = (PI * 2 / SPOKES) * i + webRot;
+          ctx.beginPath();
+          ctx.arc(
+            cx + cos(angle) * radius,
+            cy + sin(angle) * radius * 0.72,
+            1.4 * SCALE, 0, PI * 2
+          );
+          ctx.fill();
+        }
+      }
     }
 
     ctx.shadowBlur = 0;
@@ -195,7 +209,7 @@
     const cT    = {x:0, y:-H/2, z:0};
     const cB    = {x:0, y: H/2, z:0};
 
-    drawSpiral(prog);
+    drawWeb(prog);
 
     for (let i = 0; i < 6; i++) {
       const n = (i+1)%6;
