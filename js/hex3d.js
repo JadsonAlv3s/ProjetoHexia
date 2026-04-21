@@ -74,66 +74,58 @@
     return easeIn(Math.max(0, 1 - (t - rev) / 0.08));
   }
 
-  /* ── Teia de aranha (fundo) ────────────────────────────── */
-  function drawWeb(prog) {
-    const SPOKES = 12;
-    const RINGS  = 9;
-    const maxR   = SIZE * 0.49;
-    const cx     = SIZE / 2;
-    const cy     = SIZE / 2;
-    const webRot = rotY * 0.4;
+  /* ── Espiral de Fibonacci ──────────────────────────────── */
+  const PHI = 1.6180339887;
 
-    ctx.shadowBlur  = 4 * SCALE;
+  function drawSpiral(prog) {
+    const buildEnd = T_BUILD / T_TOTAL;
+    if (prog > buildEnd + 0.05) return;
+    const t     = Math.min(1, prog / buildEnd);
+    const steps = 320;
+    const drawn = Math.floor(steps * t);
+
+    /* Espiral interna */
+    const turns1 = 2.8;
+    const maxR1  = 158 * SCALE;
+    ctx.shadowBlur  = 10 * SCALE;
     ctx.shadowColor = GLOW_COLOR;
-
-    const spokeAl = 0.10 * elemAlpha(0.0, prog);
-    if (spokeAl > 0.01) {
-      ctx.strokeStyle = rgba(spokeAl);
-      ctx.lineWidth   = 0.5 * SCALE;
-      for (let i = 0; i < SPOKES; i++) {
-        const angle = (PI * 2 / SPOKES) * i + webRot;
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + cos(angle) * maxR, cy + sin(angle) * maxR * 0.72);
-        ctx.stroke();
-      }
+    ctx.beginPath();
+    for (let i = 0; i <= drawn; i++) {
+      const u     = i / steps;
+      const angle = u * turns1 * PI * 2 + rotY;
+      const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR1;
+      const px    = SIZE / 2 + cos(angle) * r;
+      const py    = SIZE / 2 + sin(angle) * r * 0.62;
+      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
     }
+    const sa1 = t < 0.85 ? 0.55 : 0.55 * easeIn(1 - (t - 0.85) / 0.15);
+    ctx.strokeStyle = rgba(sa1);
+    ctx.lineWidth   = 0.9 * SCALE;
+    ctx.stroke();
 
-    for (let r = 0; r < RINGS; r++) {
-      const thresh  = 0.08 + (r / RINGS) * 0.84;
-      const outerAl = r === RINGS - 1 ? 0.18 : 0.10;
-      const al      = outerAl * elemAlpha(thresh, prog);
-      if (al < 0.01) continue;
-
-      const radius = ((r + 1) / RINGS) * maxR;
-      ctx.strokeStyle = rgba(al);
-      ctx.lineWidth   = (r === RINGS - 1 ? 0.7 : 0.45) * SCALE;
+    /* Espiral externa — maior raio, fase defasada */
+    const turns2 = 3.4;
+    const maxR2  = SIZE * 0.50;
+    const delay  = 0.16;
+    const t2     = Math.max(0, Math.min(1, (t - delay) / (1 - delay)));
+    const drawn2 = Math.floor(steps * t2);
+    if (drawn2 > 0) {
+      ctx.shadowBlur = 7 * SCALE;
       ctx.beginPath();
-      for (let i = 0; i <= SPOKES; i++) {
-        const angle = (PI * 2 / SPOKES) * i + webRot;
-        const px = cx + cos(angle) * radius;
-        const py = cy + sin(angle) * radius * 0.72;
+      for (let i = 0; i <= drawn2; i++) {
+        const u     = i / steps;
+        const angle = u * turns2 * PI * 2 + rotY + PI * 0.72;
+        const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR2;
+        const px    = SIZE / 2 + cos(angle) * r;
+        const py    = SIZE / 2 + sin(angle) * r * 0.62;
         i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
       }
-      ctx.closePath();
+      const sa2 = t2 < 0.85 ? 0.28 : 0.28 * easeIn(1 - (t2 - 0.85) / 0.15);
+      ctx.strokeStyle = rgba(sa2);
+      ctx.lineWidth   = 0.65 * SCALE;
       ctx.stroke();
-
-      if (r === RINGS - 1) {
-        const nodeAl = 0.45 * elemAlpha(thresh, prog);
-        ctx.fillStyle  = rgba(nodeAl);
-        ctx.shadowBlur = 7 * SCALE;
-        for (let i = 0; i < SPOKES; i++) {
-          const angle = (PI * 2 / SPOKES) * i + webRot;
-          ctx.beginPath();
-          ctx.arc(
-            cx + cos(angle) * radius,
-            cy + sin(angle) * radius * 0.72,
-            1.3 * SCALE, 0, PI * 2
-          );
-          ctx.fill();
-        }
-      }
     }
+
     ctx.shadowBlur = 0;
   }
 
@@ -208,7 +200,7 @@
 
     ctx.clearRect(0, 0, SIZE, SIZE);
 
-    drawWeb(prog);
+    drawSpiral(prog);
     drawLogoSpiral(prog);
 
     rotY += ROT_SPD;
