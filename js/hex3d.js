@@ -132,24 +132,49 @@
     const t     = Math.min(1, prog / buildEnd);
     const steps = 300;
     const drawn = Math.floor(steps * t);
-    const turns = 2.8;
-    const maxR  = 158 * SCALE;
 
+    /* Espiral interna */
+    const turns1 = 2.8;
+    const maxR1  = 158 * SCALE;
     ctx.shadowBlur  = 10 * SCALE;
     ctx.shadowColor = GLOW_COLOR;
     ctx.beginPath();
     for (let i = 0; i <= drawn; i++) {
       const u     = i / steps;
-      const angle = u * turns * PI * 2 + rotY;
-      const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR;
+      const angle = u * turns1 * PI * 2 + rotY;
+      const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR1;
       const px    = SIZE / 2 + cos(angle) * r;
       const py    = SIZE / 2 + sin(angle) * r * 0.62;
       i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
     }
-    const sa = t < 0.85 ? 0.55 : 0.55 * easeIn(1 - (t - 0.85) / 0.15);
-    ctx.strokeStyle = rgba(sa);
+    const sa1 = t < 0.85 ? 0.55 : 0.55 * easeIn(1 - (t - 0.85) / 0.15);
+    ctx.strokeStyle = rgba(sa1);
     ctx.lineWidth   = 0.9 * SCALE;
     ctx.stroke();
+
+    /* Espiral externa — maior raio, fase oposta, linha mais fina */
+    const turns2 = 3.4;
+    const maxR2  = SIZE * 0.52;
+    const delay  = 0.18; /* começa um pouco depois */
+    const t2     = Math.max(0, Math.min(1, (t - delay) / (1 - delay)));
+    const drawn2 = Math.floor(steps * t2);
+    if (drawn2 > 0) {
+      ctx.shadowBlur  = 7 * SCALE;
+      ctx.beginPath();
+      for (let i = 0; i <= drawn2; i++) {
+        const u     = i / steps;
+        const angle = u * turns2 * PI * 2 + rotY + PI * 0.72;
+        const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR2;
+        const px    = SIZE / 2 + cos(angle) * r;
+        const py    = SIZE / 2 + sin(angle) * r * 0.62;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      const sa2 = t2 < 0.85 ? 0.28 : 0.28 * easeIn(1 - (t2 - 0.85) / 0.15);
+      ctx.strokeStyle = rgba(sa2);
+      ctx.lineWidth   = 0.65 * SCALE;
+      ctx.stroke();
+    }
+
     ctx.shadowBlur = 0;
   }
 
