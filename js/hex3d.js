@@ -15,8 +15,11 @@
   function calcSize() {
     const container = canvas.parentElement;
     const maxW = container ? container.clientWidth : window.innerWidth;
-    SIZE  = Math.min(480, maxW, window.innerHeight * 0.7);
-    SIZE  = Math.max(220, SIZE);
+    const vw   = window.innerWidth;
+    const vh   = window.innerHeight;
+    /* No mobile usa a largura total da tela */
+    const base = vw <= 768 ? Math.min(vw - 32, vh * 0.55) : Math.min(480, maxW, vh * 0.7);
+    SIZE  = Math.max(240, base);
     SCALE = SIZE / 480;
     FOV   = 340 * SCALE;
     CAM_Z = 500 * SCALE;

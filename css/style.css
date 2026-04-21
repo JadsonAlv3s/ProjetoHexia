@@ -705,9 +705,9 @@ footer::before{
 
 /* ── RESPONSIVO — TABLET (≤ 1024px) ── */
 @media (max-width:1024px){
-  .hero{grid-template-columns:1fr}
-  .hero-right{display:flex;width:100%;min-height:320px;aspect-ratio:1}
-  .hero-left{padding:7rem 3rem 5rem}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-right{display:flex;width:100%;min-height:auto;padding:2rem 0 3.5rem}
+  .hero-left{padding:7rem 3rem 4rem}
   .hero-title{font-size:4rem}
   .nichos-grid{grid-template-columns:repeat(2,1fr)}
   .process-grid{grid-template-columns:repeat(2,1fr);gap:3rem 0}
@@ -746,10 +746,10 @@ footer::before{
   .nav-cta{display:none}
   .nav-hamburger{display:flex}
 
-  .hero-left{padding:5rem 1.5rem 4rem}
-  .hero-right{min-height:260px}
-  .hero-title{font-size:2.8rem;letter-spacing:-0.01em}
-  .hero-sub{font-size:0.88rem;max-width:100%}
+  .hero-left{padding:5rem 1.5rem 3rem}
+  .hero-right{min-height:auto;padding:0 0 3rem}
+  .hero-title{font-size:2.4rem;letter-spacing:-0.01em}
+  .hero-sub{font-size:0.85rem;max-width:100%;margin-bottom:2.5rem}
   .hero::before{display:none}
   .hero-left::after{display:none}
 
