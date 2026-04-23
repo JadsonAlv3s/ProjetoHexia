@@ -1,146 +1,214 @@
 (function () {
   const canvas = document.getElementById('hex3d');
-  if (!canvas || typeof THREE === 'undefined') return;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
 
-  /* ── Cena ───────────────────────────────────────────── */
-  const scene    = new THREE.Scene();
-  const camera   = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.z = 4.2;
+  const GOLD      = [201, 168, 76];
+  const ROT_SPD   = 0.006;
+  const T_BUILD   = 3400;
+  const T_HOLD    = 1600;
+  const T_DISSOLVE= 2600;
+  const T_TOTAL   = T_BUILD + T_HOLD + T_DISSOLVE;
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias : true,
-    alpha     : true,
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.toneMapping         = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.8;
-  renderer.outputColorSpace    = THREE.SRGBColorSpace;
+  let SIZE, SCALE, FOV, CAM_Z;
 
-  /* ── Responsivo ─────────────────────────────────────── */
-  function resize() {
+  function calcSize() {
+    const container = canvas.parentElement;
+    const maxW = container ? container.clientWidth : window.innerWidth;
     const vw   = window.innerWidth;
     const vh   = window.innerHeight;
-    const cont = canvas.parentElement;
-    let s;
-    if (vw <= 768) {
-      s = Math.min(vw - 24, Math.round(vh * 0.52));
-    } else {
-      s = Math.min(480, cont ? cont.clientWidth : vw, Math.round(vh * 0.72));
-    }
-    s = Math.max(240, s);
-    renderer.setSize(s, s, false);
+    /* No mobile usa a largura total da tela */
+    const base = vw <= 768 ? Math.min(vw - 32, vh * 0.55) : Math.min(480, maxW, vh * 0.7);
+    SIZE  = Math.max(240, base);
+    SCALE = SIZE / 480;
+    FOV   = 340 * SCALE;
+    CAM_Z = 500 * SCALE;
+    canvas.width = canvas.height = SIZE;
   }
-  resize();
-  window.addEventListener('resize', resize);
 
-  /* ── Geometria — vórtice espiral ────────────────────── */
-  const knotGeo = new THREE.TorusKnotGeometry(1.05, 0.38, 280, 32, 2, 3);
+  calcSize();
 
-  /* Material metálico dourado */
-  const knotMat = new THREE.MeshStandardMaterial({
-    color            : new THREE.Color(0xC9A030),
-    metalness        : 0.92,
-    roughness        : 0.12,
-    emissive         : new THREE.Color(0x5C3A00),
-    emissiveIntensity: 0.55,
-  });
+  /* Carrega logo da pasta de imagens */
+  const img = new Image();
+  img.src = 'assets/images/logoHexia-removebg-preview.png';
 
-  const knot = new THREE.Mesh(knotGeo, knotMat);
-  scene.add(knot);
-
-  /* Anel externo — halo sutil */
-  const ringGeo = new THREE.TorusGeometry(1.72, 0.012, 8, 160);
-  const ringMat = new THREE.MeshStandardMaterial({
-    color    : new THREE.Color(0xE8C97A),
-    metalness: 0.8,
-    roughness: 0.2,
-    emissive : new THREE.Color(0xC9A84C),
-    emissiveIntensity: 0.6,
-  });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.rotation.x = Math.PI / 2;
-  scene.add(ring);
-
-  /* Segundo anel inclinado */
-  const ring2 = ring.clone();
-  ring2.rotation.set(Math.PI / 3, Math.PI / 6, 0);
-  scene.add(ring2);
-
-  /* ── Iluminação dinâmica ────────────────────────────── */
-  scene.add(new THREE.AmbientLight(0xffffff, 0.25));
-
-  const keyLight = new THREE.DirectionalLight(0xfff8e7, 3.5);
-  keyLight.position.set(4, 4, 4);
-  scene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0xffd080, 1.2);
-  fillLight.position.set(-3, 1, 2);
-  scene.add(fillLight);
-
-  /* Luz pontual que orbita — cria reflexo dinâmico */
-  const orbitLight = new THREE.PointLight(0xffe0a0, 6, 12);
-  scene.add(orbitLight);
-
-  /* Luz de contorno azul-dourada para contraste */
-  const rimLight = new THREE.PointLight(0x88aaff, 2.5, 10);
-  rimLight.position.set(-3, -2, -1);
-  scene.add(rimLight);
-
-  /* ── Partículas ao redor ────────────────────────────── */
-  const PARTS  = 280;
-  const pPositions = new Float32Array(PARTS * 3);
-  for (let i = 0; i < PARTS; i++) {
-    const r   = 2.1 + Math.random() * 1.4;
-    const phi = Math.acos(2 * Math.random() - 1);
-    const th  = Math.random() * Math.PI * 2;
-    pPositions[i * 3]     = r * Math.sin(phi) * Math.cos(th);
-    pPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(th);
-    pPositions[i * 3 + 2] = r * Math.cos(phi);
-  }
-  const pGeo = new THREE.BufferGeometry();
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-  const pMat = new THREE.PointsMaterial({
-    color      : 0xE8C97A,
-    size       : 0.028,
-    transparent: true,
-    opacity    : 0.55,
-    sizeAttenuation: true,
-  });
-  scene.add(new THREE.Points(pGeo, pMat));
-
-  /* ── Loop ───────────────────────────────────────────── */
-  let animId = null;
-  let t      = 0;
-
-  function animate() {
-    animId = requestAnimationFrame(animate);
-    t += 0.012;
-
-    knot.rotation.x += 0.004;
-    knot.rotation.y += 0.007;
-
-    ring.rotation.z  += 0.003;
-    ring2.rotation.z -= 0.002;
-
-    /* Luz orbita ao redor do objeto */
-    orbitLight.position.set(
-      Math.cos(t * 0.6) * 3.2,
-      Math.sin(t * 0.4) * 2.0,
-      Math.sin(t * 0.5) * 2.5
-    );
-
-    renderer.render(scene, camera);
-  }
+  let rotY      = 0;
+  let startTime = null;
+  let paused    = false;
 
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) {
-      cancelAnimationFrame(animId);
-      animId = null;
-    } else {
-      if (!animId) animate();
-    }
+    paused = document.hidden;
+    if (!paused) { startTime = null; requestAnimationFrame(draw); }
   });
 
-  animate();
+  window.addEventListener('resize', function () {
+    calcSize();
+    startTime = null;
+  });
+
+  const cos = Math.cos, sin = Math.sin, PI = Math.PI;
+
+  function easeIn(t)  { return t * t; }
+  function easeOut(t) { return 1 - (1 - t) * (1 - t); }
+
+  function rgba(a) { return `rgba(${GOLD},${a})`; }
+  const GLOW_COLOR = `rgba(${GOLD},0.5)`;
+
+  function globalAlpha(prog) {
+    const buildEnd      = T_BUILD / T_TOTAL;
+    const dissolveStart = (T_BUILD + T_HOLD) / T_TOTAL;
+    if (prog <= buildEnd)      return easeOut(Math.min(1, prog / buildEnd * 1.6));
+    if (prog <= dissolveStart) return 1;
+    return easeIn(1 - (prog - dissolveStart) / (1 - dissolveStart));
+  }
+
+  function elemAlpha(thresh, prog) {
+    const buildEnd      = T_BUILD / T_TOTAL;
+    const dissolveStart = (T_BUILD + T_HOLD) / T_TOTAL;
+    if (prog <= buildEnd) {
+      const t = prog / buildEnd;
+      if (t < thresh) return 0;
+      return easeOut(Math.min(1, (t - thresh) / 0.08));
+    }
+    if (prog <= dissolveStart) return 1;
+    const t   = (prog - dissolveStart) / (1 - dissolveStart);
+    const rev = 1 - thresh;
+    if (t < rev) return 1;
+    return easeIn(Math.max(0, 1 - (t - rev) / 0.08));
+  }
+
+  /* ── Espiral de Fibonacci ──────────────────────────────── */
+  const PHI = 1.6180339887;
+
+  function drawSpiral(prog) {
+    const buildEnd = T_BUILD / T_TOTAL;
+    if (prog > buildEnd + 0.05) return;
+    const t     = Math.min(1, prog / buildEnd);
+    const steps = 320;
+    const drawn = Math.floor(steps * t);
+
+    /* Espiral interna */
+    const turns1 = 3.8;
+    const maxR1  = 458 * SCALE;
+    ctx.shadowBlur  = 10 * SCALE;
+    ctx.shadowColor = GLOW_COLOR;
+    ctx.beginPath();
+    for (let i = 0; i <= drawn; i++) {
+      const u     = i / steps;
+      const angle = u * turns1 * PI * 2 + rotY;
+      const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR1;
+      const px    = SIZE / 2 + cos(angle) * r;
+      const py    = SIZE / 2 + sin(angle) * r * 0.62;
+      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    const sa1 = t < 0.85 ? 0.55 : 0.55 * easeIn(1 - (t - 0.85) / 0.15);
+    ctx.strokeStyle = rgba(sa1);
+    ctx.lineWidth   = 0.9 * SCALE;
+    ctx.stroke();
+
+    /* Espiral externa — maior raio, fase defasada */
+    const turns2 = 4.4;
+    const maxR2  = SIZE * 0.90;
+    const delay  = 0.16;
+    const t2     = Math.max(0, Math.min(1, (t - delay) / (1 - delay)));
+    const drawn2 = Math.floor(steps * t2);
+    if (drawn2 > 0) {
+      ctx.shadowBlur = 7 * SCALE;
+      ctx.beginPath();
+      for (let i = 0; i <= drawn2; i++) {
+        const u     = i / steps;
+        const angle = u * turns2 * PI * 2 + rotY + PI * 0.72;
+        const r     = (Math.pow(PHI, u * 4) - 1) / (Math.pow(PHI, 4) - 1) * maxR2;
+        const px    = SIZE / 2 + cos(angle) * r;
+        const py    = SIZE / 2 + sin(angle) * r * 0.62;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      const sa2 = t2 < 0.85 ? 0.28 : 0.28 * easeIn(1 - (t2 - 0.85) / 0.15);
+      ctx.strokeStyle = rgba(sa2);
+      ctx.lineWidth   = 0.65 * SCALE;
+      ctx.stroke();
+    }
+
+    ctx.shadowBlur = 0;
+  }
+
+  /* ── Logo 3D em hélice espiral ─────────────────────────── */
+  function drawLogoSpiral(prog) {
+    if (!img.complete || !img.naturalWidth) return;
+
+    const N       = 10;           /* número de cópias na hélice */
+    const TURNS   = 1.5;         /* voltas da hélice */
+    const R       = 95 * SCALE;  /* raio da hélice */
+    const H_HEL   = 150 * SCALE; /* altura total da hélice */
+    const s0      = FOV / CAM_Z; /* escala perspectiva em z=0 */
+    const aspect  = img.naturalHeight / img.naturalWidth;
+    const gA      = globalAlpha(prog);
+    if (gA < 0.01) return;
+
+    const copies = [];
+
+    for (let i = 0; i < N; i++) {
+      const u     = i / (N - 1);              /* 0 → 1 ao longo da hélice */
+      const angle = u * TURNS * PI * 2 + rotY;
+      const x3d   = cos(angle) * R;
+      const z3d   = sin(angle) * R;
+      const y3d   = (u - 0.5) * H_HEL;
+
+      const s  = FOV / (CAM_Z + z3d);
+      const sx = SIZE / 2 + x3d * s;
+      const sy = SIZE / 2 + y3d * s;
+
+      const isCentral = i === Math.floor(N / 2);
+
+      /* Largura base: central = 180px, demais = 52-80px */
+      const natW = isCentral ? 180 * SCALE : (52 + u * 28) * SCALE;
+      const imgW = natW * (s / s0);
+      const imgH = imgW * aspect;
+
+      /* Opacidade: central intensa, outras por profundidade */
+      const depthFade  = Math.max(0, 1 - Math.abs(z3d / R) * 0.55);
+      const baseOpacity = isCentral ? 0.94 : 0.22 + depthFade * 0.28;
+      const opacity     = baseOpacity * gA;
+
+      /* Brilho dourado suave ao redor de cada cópia */
+      const glowR = isCentral ? 0.40 : 0.18 * depthFade;
+
+      copies.push({ sx, sy, imgW, imgH, z3d, opacity, glowR, isCentral });
+    }
+
+    /* Ordena de trás para frente (painter's algorithm) */
+    copies.sort((a, b) => b.z3d - a.z3d);
+
+    copies.forEach(function (c) {
+      ctx.save();
+
+      /* Glow dourado ao redor da imagem */
+      if (c.glowR > 0.01) {
+        ctx.shadowBlur  = (c.isCentral ? 28 : 14) * SCALE;
+        ctx.shadowColor = `rgba(${GOLD},${c.glowR})`;
+      }
+
+      ctx.globalAlpha = Math.max(0, Math.min(1, c.opacity));
+      ctx.drawImage(img, c.sx - c.imgW / 2, c.sy - c.imgH / 2, c.imgW, c.imgH);
+
+      ctx.restore();
+    });
+  }
+
+  /* ── Loop principal ─────────────────────────────────────── */
+  function draw(ts) {
+    if (paused) return;
+    if (!startTime) startTime = ts;
+    const prog = ((ts - startTime) % T_TOTAL) / T_TOTAL;
+
+    ctx.clearRect(0, 0, SIZE, SIZE);
+
+    drawSpiral(prog);
+    drawLogoSpiral(prog);
+
+    rotY += ROT_SPD;
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
 })();
