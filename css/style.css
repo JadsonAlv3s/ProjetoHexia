@@ -694,8 +694,8 @@ footer::before{
 
 /* ── RESPONSIVO — TABLET (≤ 1024px) ── */
 @media (max-width:1024px){
-  .hero{min-height:100vh}
-  .hero-left{padding:7rem 2rem 4rem}
+  .hero{min-height:100vh;min-height:100svh}
+  .hero-left{padding:4rem 2rem 3rem}
   .hero-title{font-size:4rem}
   .nichos-grid{grid-template-columns:repeat(2,1fr)}
   .process-grid{grid-template-columns:repeat(2,1fr);gap:3rem 0}
@@ -734,9 +734,13 @@ footer::before{
   .nav-cta{display:none}
   .nav-hamburger{display:flex}
 
-  .hero-left{padding:5rem 1.5rem 3rem}
-  .hero-title{font-size:2.4rem;letter-spacing:-0.01em}
-  .hero-sub{font-size:0.85rem;max-width:100%;margin-bottom:2.5rem}
+  .hero{min-height:100vh;min-height:100svh}
+  .hero-left{padding:1.5rem 1.5rem 2rem}
+  .hero-left::before{inset:-20% -10%;background:radial-gradient(ellipse at center,rgba(10,10,10,0.60) 20%,transparent 68%)}
+  .hero-line{margin-bottom:1rem}
+  .hero-tag{margin-bottom:0.8rem}
+  .hero-title{font-size:2rem;letter-spacing:-0.01em;margin-bottom:1.2rem;line-height:1.1}
+  .hero-sub{font-size:0.82rem;max-width:100%;margin-bottom:1.8rem;line-height:1.7}
 
   .btn-gold{padding:0.9rem 2rem;font-size:0.7rem}
   .btn-outline{font-size:0.7rem}

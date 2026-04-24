@@ -18,7 +18,7 @@
     const vw   = window.innerWidth;
     const vh   = window.innerHeight;
     /* No mobile usa a largura total da tela */
-    const base = vw <= 768 ? Math.min(vw - 32, vh * 0.65) : Math.min(700, maxW * 0.75, vh * 0.85);
+    const base = vw <= 768 ? Math.min(vw, vh * 0.75) : Math.min(700, maxW * 0.75, vh * 0.85);
     SIZE  = Math.max(240, base);
     SCALE = SIZE / 480;
     FOV   = 340 * SCALE;
