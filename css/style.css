@@ -14,7 +14,8 @@ body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#0F172A}
   --texto:#0F172A;
   --texto2:#334155;
   --texto3:#64748B;
-  --branco:#FFFFFF;
+  --branco:#0F172A;        /* texto escuro — alias legado para fundo claro */
+  --white:#FFFFFF;         /* branco puro para botões e seções dark */
   --azul-line:rgba(0,51,102,0.12);
   --azul-glow:rgba(0,82,204,0.06);
   --azul-dim:rgba(0,51,102,0.06);
@@ -153,7 +154,7 @@ nav{
 .hero-sub{
   font-size:0.92rem;
   line-height:2;
-  color:rgba(15,23,42,0.45);
+  color:rgba(15,23,42,0.65);
   max-width:540px;
   margin-bottom:4rem;
   font-weight:300;
@@ -290,7 +291,7 @@ nav{
   font-size:0.65rem;
   letter-spacing:0.2em;
   text-transform:uppercase;
-  color:rgba(15,23,42,0.35);
+  color:rgba(15,23,42,0.55);
   font-weight:400;
 }
 .numero-divider{
@@ -448,7 +449,7 @@ nav{
 .nicho-desc{
   font-size:0.8rem;
   line-height:1.9;
-  color:rgba(15,23,42,0.38);
+  color:rgba(15,23,42,0.60);
   font-weight:300;
 }
 
@@ -569,7 +570,7 @@ nav{
 .step-desc{
   font-size:0.73rem;
   line-height:1.8;
-  color:rgba(15,23,42,0.35);
+  color:rgba(15,23,42,0.58);
   font-weight:300;
 }
 
