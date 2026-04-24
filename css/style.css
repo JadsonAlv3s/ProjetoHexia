@@ -35,7 +35,7 @@ body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#0F172A}
 /* ── NAV ── */
 nav{
   width:100%;
-  background:rgba(248,250,252,0.95);
+  background:rgba(0,26,51,0.97);
   backdrop-filter:blur(24px);
   -webkit-backdrop-filter:blur(24px);
   padding:0 3rem;
@@ -43,19 +43,19 @@ nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  border-bottom:1px solid var(--dourado-line);
+  border-bottom:1px solid rgba(255,255,255,0.08);
   position:fixed;
   top:0;
   z-index:100;
 }
 .logo{display:flex;align-items:center;text-decoration:none}
-.logo-img{height:106px;width:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,82,204,0.25))}
+.logo-img{height:106px;width:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 10px rgba(201,168,76,0.35))}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
 .nav-links a{
   font-size:0.72rem;
   letter-spacing:0.14em;
   text-transform:uppercase;
-  color:rgba(15,23,42,0.5);
+  color:rgba(255,255,255,0.65);
   text-decoration:none;
   transition:color 0.2s;
   position:relative;
@@ -66,25 +66,25 @@ nav{
   position:absolute;
   bottom:0;left:0;
   width:0;height:1px;
-  background:var(--dourado);
+  background:var(--laranja);
   transition:width 0.25s;
 }
-.nav-links a:hover{color:var(--dourado)}
+.nav-links a:hover{color:var(--laranja)}
 .nav-links a:hover::after{width:100%}
 .nav-cta{
   background:transparent;
-  color:var(--dourado);
+  color:#FFFFFF;
   padding:0.6rem 1.6rem;
   font-size:0.72rem;
   letter-spacing:0.14em;
   text-transform:uppercase;
-  border:1px solid var(--dourado-line);
+  border:1px solid rgba(255,255,255,0.3);
   cursor:pointer;
   font-weight:500;
   transition:all 0.25s;
   text-decoration:none;
 }
-.nav-cta:hover{background:var(--dourado);color:var(--preto);border-color:var(--dourado)}
+.nav-cta:hover{background:var(--laranja);color:#FFFFFF;border-color:var(--laranja)}
 
 /* ── HERO ── */
 .hero{
@@ -703,7 +703,7 @@ footer::before{
 .nav-hamburger span{
   display:block;
   width:24px;height:1px;
-  background:var(--dourado);
+  background:#FFFFFF;
   transition:all 0.25s;
 }
 .nav-hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
