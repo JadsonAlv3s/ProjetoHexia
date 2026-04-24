@@ -31,7 +31,7 @@ nav{
   z-index:100;
 }
 .logo{display:flex;align-items:center;text-decoration:none}
-.logo-img{height:56px;width:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 8px rgba(201,168,76,0.45))}
+.logo-img{height:106px;width:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 8px rgba(201,168,76,0.45))}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
 .nav-links a{
   font-size:0.72rem;
@@ -71,53 +71,42 @@ nav{
 /* ── HERO ── */
 .hero{
   min-height:100vh;
-  display:grid;
-  grid-template-columns:58% 42%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:var(--preto);
   padding-top:72px;
   position:relative;
 }
 
-/* Linha vertical de fluxo — guia visual esquerda */
-.hero::before{
-  content:'';
-  position:absolute;
-  left:3rem;
-  top:72px;
-  width:1px;
-  height:55%;
-  background:linear-gradient(to bottom, var(--dourado) 0%, transparent 100%);
-  opacity:0.25;
-  pointer-events:none;
-}
+/* Linha vertical de fluxo — desativada no layout overlay */
+.hero::before{display:none}
 
 .hero-left{
   display:flex;
   flex-direction:column;
+  align-items:center;
   justify-content:center;
-  padding:8rem 5rem 6rem 6rem;
+  text-align:center;
+  padding:6rem 3rem 4rem;
   position:relative;
-  overflow:hidden;
+  z-index:2;
+  max-width:900px;
+  width:100%;
 }
 
-/* Gradiente ambiente dourado */
+/* Sombra central para legibilidade do texto sobre a animação */
 .hero-left::before{
   content:'';
   position:absolute;
-  top:-10%;left:-5%;
-  width:70%;height:70%;
-  background:radial-gradient(ellipse at top left, rgba(201,168,76,0.07) 0%, transparent 65%);
+  inset:-40% -20%;
+  background:radial-gradient(ellipse at center, rgba(10,10,10,0.72) 30%, transparent 72%);
   pointer-events:none;
+  z-index:-1;
 }
 
-/* Linha separadora vertical entre colunas */
-.hero-left::after{
-  content:'';
-  position:absolute;
-  right:0;top:15%;
-  width:1px;height:70%;
-  background:linear-gradient(to bottom, transparent, var(--dourado-line), transparent);
-}
+/* Divisor de coluna removido — layout overlay */
+.hero-left::after{display:none}
 
 .hero-line{width:32px;height:1px;background:var(--dourado);margin-bottom:1.8rem;opacity:0.8}
 .hero-tag{
@@ -148,13 +137,14 @@ nav{
   font-size:0.92rem;
   line-height:2;
   color:rgba(245,240,232,0.45);
-  max-width:400px;
+  max-width:540px;
   margin-bottom:4rem;
   font-weight:300;
   letter-spacing:0.01em;
+  text-align:center;
 }
 
-.hero-cta-group{display:flex;align-items:center;gap:1.5rem}
+.hero-cta-group{display:flex;align-items:center;justify-content:center;gap:1.5rem}
 
 .btn-gold{
   display:inline-block;
@@ -198,16 +188,15 @@ nav{
 .btn-outline:hover{color:var(--dourado)}
 .btn-outline:hover::before{transform:translateY(3px)}
 
-/* HERO RIGHT — Painel de Comando */
+/* HERO RIGHT — Animação de fundo absoluta */
 .hero-right{
-  background:var(--preto2);
+  position:absolute;
+  inset:0;
+  z-index:0;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  position:relative;
   overflow:hidden;
-  padding:0;
 }
 
 /* Grade hexagonal de fundo */
@@ -705,9 +694,8 @@ footer::before{
 
 /* ── RESPONSIVO — TABLET (≤ 1024px) ── */
 @media (max-width:1024px){
-  .hero{grid-template-columns:1fr;min-height:auto}
-  .hero-right{display:flex;width:100%;min-height:auto;padding:2rem 0 3.5rem}
-  .hero-left{padding:7rem 3rem 4rem}
+  .hero{min-height:100vh}
+  .hero-left{padding:7rem 2rem 4rem}
   .hero-title{font-size:4rem}
   .nichos-grid{grid-template-columns:repeat(2,1fr)}
   .process-grid{grid-template-columns:repeat(2,1fr);gap:3rem 0}
@@ -747,11 +735,8 @@ footer::before{
   .nav-hamburger{display:flex}
 
   .hero-left{padding:5rem 1.5rem 3rem}
-  .hero-right{min-height:auto;padding:0 0 3rem}
   .hero-title{font-size:2.4rem;letter-spacing:-0.01em}
   .hero-sub{font-size:0.85rem;max-width:100%;margin-bottom:2.5rem}
-  .hero::before{display:none}
-  .hero-left::after{display:none}
 
   .btn-gold{padding:0.9rem 2rem;font-size:0.7rem}
   .btn-outline{font-size:0.7rem}
@@ -780,4 +765,70 @@ footer::before{
 
   footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}
   .footer-links{justify-content:center}
+}
+
+/* ── LATERAIS SEO ── */
+.side-brand{
+  position:fixed;
+  left:1.2rem;
+  top:50%;
+  writing-mode:vertical-rl;
+  transform:translateY(-50%) rotate(180deg);
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  font-size:0.58rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,0.28);
+  pointer-events:none;
+  user-select:none;
+  z-index:10;
+}
+.side-brand-dot{
+  display:block;
+  flex-shrink:0;
+  width:3px;height:3px;
+  border-radius:50%;
+  background:rgba(201,168,76,0.28);
+}
+
+.side-stats{
+  position:fixed;
+  right:1.2rem;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.9rem;
+  z-index:10;
+}
+.side-stat{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.2rem;
+}
+.side-stat-num{
+  font-size:0.85rem;
+  font-weight:700;
+  color:var(--dourado);
+  letter-spacing:-0.01em;
+  line-height:1;
+}
+.side-stat-label{
+  font-size:0.52rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,0.28);
+  font-weight:300;
+}
+.side-divider{
+  width:1px;height:18px;
+  background:linear-gradient(to bottom, transparent, var(--dourado-line), transparent);
+}
+
+@media(max-width:1024px){
+  .side-brand,.side-stats{display:none}
 }

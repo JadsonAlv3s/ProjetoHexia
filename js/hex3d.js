@@ -18,7 +18,7 @@
     const vw   = window.innerWidth;
     const vh   = window.innerHeight;
     /* No mobile usa a largura total da tela */
-    const base = vw <= 768 ? Math.min(vw - 32, vh * 0.55) : Math.min(480, maxW, vh * 0.7);
+    const base = vw <= 768 ? Math.min(vw - 32, vh * 0.65) : Math.min(700, maxW * 0.75, vh * 0.85);
     SIZE  = Math.max(240, base);
     SCALE = SIZE / 480;
     FOV   = 340 * SCALE;
@@ -30,7 +30,7 @@
 
   /* Carrega logo da pasta de imagens */
   const img = new Image();
-  img.src = 'assets/images/logoHexia-removebg-preview.png';
+  img.src = 'assets/images/hexiatecnologia-removebg-preview.png';
 
   let rotY      = 0;
   let startTime = null;
