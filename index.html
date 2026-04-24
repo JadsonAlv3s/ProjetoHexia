@@ -30,6 +30,35 @@
 </head>
 <body>
 
+<!-- LATERAIS FIXAS — fora do site-wrap para position:fixed funcionar no mobile -->
+<div class="side-brand" aria-hidden="true">
+  <span>SISTEMAS DIGITAIS</span>
+  <span class="side-brand-dot"></span>
+  <span>DESENVOLVIMENTO WEB</span>
+  <span class="side-brand-dot"></span>
+  <span>HEXIA TECNOLOGIA</span>
+</div>
+
+<aside class="side-stats" aria-label="Nossos números em destaque">
+  <div class="side-stat">
+    <strong class="side-stat-num">+50</strong>
+    <span class="side-stat-label">Projetos</span>
+  </div>
+  <div class="side-divider"></div>
+  <div class="side-stat">
+    <strong class="side-stat-num">5+</strong>
+    <span class="side-stat-label">Anos</span>
+  </div>
+  <div class="side-divider"></div>
+  <div class="side-stat">
+    <strong class="side-stat-num">100%</strong>
+    <span class="side-stat-label">Suporte</span>
+  </div>
+</aside>
+
+<!-- site-wrap: recebe overflow-x:hidden para não quebrar position:fixed acima -->
+<div class="site-wrap">
+
 <nav>
   <a href="#" class="logo">
     <img src="assets/images/hexiatecnologia-removebg-preview.png" alt="Hexia — Soluções Digitais" class="logo-img" loading="eager" width="181" height="56">
@@ -226,7 +255,7 @@
 <!-- FOOTER -->
 <footer>
   <a href="#" class="footer-logo">
-    <img src="assets/images/logoHexia-removebg-preview.png" alt="Hexia" class="footer-logo-img" loading="lazy" width="97" height="30">
+    <img src="assets/images/hexiatecnologia-removebg-preview.png" alt="Hexia" class="footer-logo-img" loading="lazy" width="97" height="30">
   </a>
   <div class="footer-links">
     <a href="#nichos">Serviços</a>
@@ -236,48 +265,23 @@
   <span class="footer-copy">© 2026 Hexia — Todos os direitos reservados</span>
 </footer>
 
-  <!-- Lateral esquerda: reforço de keywords (decorativo, não indexado) -->
-  <div class="side-brand" aria-hidden="true">
-    <span>SISTEMAS DIGITAIS</span>
-    <span class="side-brand-dot"></span>
-    <span>DESENVOLVIMENTO WEB</span>
-    <span class="side-brand-dot"></span>
-    <span>HEXIA TECNOLOGIA</span>
-  </div>
+</div><!-- /site-wrap -->
 
-  <!-- Lateral direita: prova social — sinal E-E-A-T indexável -->
-  <aside class="side-stats" aria-label="Nossos números em destaque">
-    <div class="side-stat">
-      <strong class="side-stat-num">+50</strong>
-      <span class="side-stat-label">Projetos</span>
-    </div>
-    <div class="side-divider"></div>
-    <div class="side-stat">
-      <strong class="side-stat-num">5+</strong>
-      <span class="side-stat-label">Anos</span>
-    </div>
-    <div class="side-divider"></div>
-    <div class="side-stat">
-      <strong class="side-stat-num">100%</strong>
-      <span class="side-stat-label">Suporte</span>
-    </div>
-  </aside>
-
-  <script src="js/hex3d.js"></script>
-  <script>
-    /* Hamburger menu */
-    const toggle = document.getElementById('navToggle');
-    const links  = document.getElementById('navLinks');
-    toggle.addEventListener('click', function () {
-      const open = links.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', open);
+<script src="js/hex3d.js"></script>
+<script>
+  /* Hamburger menu */
+  const toggle = document.getElementById('navToggle');
+  const links  = document.getElementById('navLinks');
+  toggle.addEventListener('click', function () {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
     });
-    links.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', function() {
-        links.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
