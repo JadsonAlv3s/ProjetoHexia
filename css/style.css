@@ -833,6 +833,18 @@ footer::before{
   background:linear-gradient(to bottom, transparent, var(--dourado-line), transparent);
 }
 
-@media(max-width:1024px){
-  .side-brand,.side-stats{display:none}
+@media(max-width:768px){
+  .side-brand{
+    left:0.4rem;
+    font-size:0.48rem;
+    gap:0.6rem;
+    letter-spacing:0.16em;
+  }
+  .side-stats{
+    right:0.4rem;
+    gap:0.6rem;
+  }
+  .side-stat-num{font-size:0.7rem}
+  .side-stat-label{font-size:0.42rem;letter-spacing:0.12em}
+  .side-divider{height:12px}
 }
