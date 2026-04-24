@@ -3,7 +3,7 @@
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  const GOLD      = [201, 168, 76];
+  const GOLD      = [0, 82, 204];   /* #0052CC — azul principal */
   const ROT_SPD   = 0.006;
   const T_BUILD   = 3400;
   const T_HOLD    = 1600;
